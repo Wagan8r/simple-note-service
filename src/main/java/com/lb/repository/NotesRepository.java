@@ -1,12 +1,13 @@
 package com.lb.repository;
 
-import com.lb.exception.BadRequestException;
 import com.lb.exception.NoteNotFoundException;
 import com.lb.model.Note;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -16,10 +17,7 @@ public class NotesRepository {
     private Map<Integer, Note> notes = new HashMap<>();
     private AtomicInteger counter = new AtomicInteger(1);
 
-    public Note create(Note note){
-        if(StringUtils.isEmpty(note.getBody())){
-            throw new BadRequestException("Note body cannot be empty");
-        }
+    public Note save(Note note){
         Note createdNote = new Note(counter.getAndIncrement(), note.getBody());
         notes.put(createdNote.getId(), createdNote);
         return createdNote;
@@ -32,10 +30,11 @@ public class NotesRepository {
         return notes.get(id);
     }
 
-    public List<Note> getAll(String text){
-        if(!StringUtils.isEmpty(text)){
-            return notes.values().stream().filter(note -> note.getBody().contains(text)).collect(Collectors.toList());
-        }
+    public List<Note> getAll(){
         return new ArrayList<>(notes.values());
+    }
+
+    public List<Note> getAll(String text){
+        return notes.values().stream().filter(note -> note.getBody().toLowerCase().contains(text.toLowerCase())).collect(Collectors.toList());
     }
 }
