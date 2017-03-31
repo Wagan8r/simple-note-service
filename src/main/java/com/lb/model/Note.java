@@ -9,6 +9,10 @@ public class Note {
     public Note(){
     }
 
+    public Note(String body){
+        setBody(body);
+    }
+
     public Note(Integer id, String body){
         setId(id);
         setBody(body);

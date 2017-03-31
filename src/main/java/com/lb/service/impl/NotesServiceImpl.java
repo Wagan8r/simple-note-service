@@ -2,6 +2,7 @@ package com.lb.service.impl;
 
 import com.lb.entity.NoteEntity;
 import com.lb.exception.BadRequestException;
+import com.lb.exception.NoteNotFoundException;
 import com.lb.model.Note;
 import com.lb.repository.NotesRepository;
 import com.lb.service.NotesService;
@@ -32,7 +33,11 @@ public class NotesServiceImpl implements NotesService{
         if(id == null){
             throw new BadRequestException("ID cannot be null");
         }
-        return new Note(notesRepository.findOne(id));
+        NoteEntity noteEntity = notesRepository.findOne(id);
+        if(noteEntity == null){
+            throw new NoteNotFoundException("No note exists for ID:" + id);
+        }
+        return new Note(noteEntity);
     }
 
     @Override
