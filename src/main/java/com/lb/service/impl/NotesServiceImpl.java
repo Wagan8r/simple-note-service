@@ -1,5 +1,6 @@
 package com.lb.service.impl;
 
+import com.lb.entity.NoteEntity;
 import com.lb.exception.BadRequestException;
 import com.lb.model.Note;
 import com.lb.repository.NotesRepository;
@@ -8,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class NotesServiceImpl implements NotesService{
@@ -21,7 +24,7 @@ public class NotesServiceImpl implements NotesService{
             throw new BadRequestException("Note body cannot be empty");
         }
         note.setBody(note.getBody().trim());
-        return notesRepository.save(note);
+        return new Note(notesRepository.save(new NoteEntity(note)));
     }
 
     @Override
@@ -29,15 +32,21 @@ public class NotesServiceImpl implements NotesService{
         if(id == null){
             throw new BadRequestException("ID cannot be null");
         }
-        return notesRepository.read(id);
+        return new Note(notesRepository.findOne(id));
     }
 
     @Override
     public List<Note> getNotes(String text) {
-        text = text.trim();
         if(!StringUtils.isEmpty(text)){
-            return notesRepository.getAll(text);
+            text = text.trim();
+            return notesRepository.findByBodyContainingText(text).stream().map(Note::new).collect(Collectors.toList());
         }
-        return notesRepository.getAll();
+        return getNotes(notesRepository.findAll());
+    }
+
+    private List<Note> getNotes(Iterable<NoteEntity> iterable){
+        List<Note> notes = new ArrayList<>();
+        iterable.forEach(entity -> notes.add(new Note(entity)));
+        return notes;
     }
 }

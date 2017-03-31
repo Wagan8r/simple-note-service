@@ -1,5 +1,7 @@
 package com.lb.model;
 
+import com.lb.entity.NoteEntity;
+
 public class Note {
     private Integer id;
     private String body;
@@ -10,6 +12,11 @@ public class Note {
     public Note(Integer id, String body){
         setId(id);
         setBody(body);
+    }
+
+    public Note(NoteEntity noteEntity){
+        setId(noteEntity.getId());
+        setBody(noteEntity.getBody());
     }
 
     public Integer getId() {
