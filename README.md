@@ -4,12 +4,23 @@ To run the service, first clone from GitHub:
 
     git clone https://github.com/Wagan8r/simple-note-service.git
 
-Make sure that you have [Intellij IDEA](https://www.jetbrains.com/idea/download/index.html#section=windows) installed. Open Intellij and go to:
+Start the service on Windows with:
 
-File->
-
-
-run
-
-    gradlew wrapper
     gradlew bootRun
+    
+or on MacOS or Linux with:
+
+    ./gradlew bootRun
+
+The service is started at:
+
+    http://localhost:80
+    
+To use the service, submit requests via curl like below:
+
+    curl -i -H "Content-Type: application/json" -X POST -d '{"body" : "Pick up milk!"}' http://localhost/api/notes
+    curl -i -H "Content-Type: application/json" -X GET http://localhost/api/notes/1
+    curl -i -H "Content-Type: application/json" -X GET http://localhost/api/notes
+    curl -i -H "Content-Type: application/json" -X GET http://localhost/api/notes?query=milk
+    
+Enjoy!
