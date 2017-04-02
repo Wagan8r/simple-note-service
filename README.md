@@ -1,4 +1,4 @@
-#simple-note-service
+# simple-note-service
 
 To run the service, first clone from GitHub:
 
@@ -8,7 +8,7 @@ Start the service on Windows with:
 
     gradlew bootRun
     
-or on MacOS or Linux with:
+or on macOS or Linux with:
 
     ./gradlew bootRun
 
