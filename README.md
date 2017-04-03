@@ -4,6 +4,10 @@ To run the service, first clone from GitHub:
 
     git clone https://github.com/Wagan8r/simple-note-service.git
 
+Then navigate into the directory:
+
+    cd simple-note-service
+
 Start the service on Windows with:
 
     gradlew bootRun
@@ -11,6 +15,14 @@ Start the service on Windows with:
 or on macOS or Linux with:
 
     ./gradlew bootRun
+    
+you may have to do:
+
+    chmod 777 gradlew
+    
+and:
+    
+    sudo ./gradlew bootRun
 
 The service is started at:
 
